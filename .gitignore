@@ -1,0 +1,8 @@
+# VSCode Folder
+.vscode
+
+# Local History for Visual Studio Code
+.history
+
+# .exe files
+*.exe
