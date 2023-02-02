@@ -10,9 +10,9 @@ The algorithm works as follows:
 
 1. Set `x = x0`
 2. Repeat the following steps for `i` from 1 to `maxIterations`:
-  - Calculate `x = x - f(x)/f'(x)`
+    - Calculate `x = x - f(x)/f'(x)`
     
-  - If `|f(x)| < tolerance`, return `x`
+    - If `|f(x)| < tolerance`, return `x`
     
 3. If the loop has not returned, return "no root found"
 
