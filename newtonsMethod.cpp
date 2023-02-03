@@ -233,6 +233,23 @@ double64 evaluateDerivative(vector<Equation> equation, double x)
 }
 
 /*
+ * This function returns the number of digits after the decimal point in a double64.
+ * For example, if the double64 is 2.5, then the number of digits after the decimal point is 1.
+ * If the double64 is 2.0, then the number of digits after the decimal point is 0.
+ */
+
+int getNumberOfDigitsAfterDecimalPoint(double64 x)
+{
+  int result = 0;
+  while (x != floor(x))
+  {
+    x *= 10;
+    result++;
+  }
+  return result;
+}
+
+/*
  * This function finds a root of an equation using Newton's method.
  * Input: an equation, an initial guess x0, a tolerance, and a maximum number of iterations
  * Output: an approximation to a root of the equation
@@ -254,7 +271,6 @@ double64 newtonsMethod(vector<Equation> equation, double x0, double tolerance, i
 
   for (int i = 1; i <= maxIterations; i++)
   {
-    // cout << "Iteration " << i << ": x = " << x << ", f(x) = " << evaluateEquation(equation, x) << endl;
     x = x - evaluateEquation(equation, x) / evaluateDerivative(equation, x);
     if (abs(evaluateEquation(equation, x)) < tolerance)
     {
@@ -262,16 +278,7 @@ double64 newtonsMethod(vector<Equation> equation, double x0, double tolerance, i
     }
 
     // Check how many digits are including the decimal point in x and use that to determine how many spaces to print after the x value in the output string (to make the output look nice)
-    int numDigitsAfterDecimal = 0;
-    double64 xCopy = x;
-    while (xCopy - (int)xCopy != 0)
-    {
-      if (numDigitsAfterDecimal == 0)
-        numDigitsAfterDecimal = 1;
-
-      xCopy *= 10;
-      numDigitsAfterDecimal++;
-    }
+    int numDigitsAfterDecimal = getNumberOfDigitsAfterDecimalPoint(x);
 
     std::cout << "Iteration [" << i << "]:" << right << setw(10 - (i > 9 ? 1 : 0)) << setfill(' ') << "x = " << x << setw(20 - numDigitsAfterDecimal) << setfill(' ') << "f(x) = " << evaluateEquation(equation, x) << endl;
   }
