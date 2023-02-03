@@ -32,6 +32,7 @@
 #include <vector>
 #include <algorithm>
 #include <iomanip>
+#include <sstream>
 
 #define __int64 long long
 #define __double long double
@@ -241,11 +242,24 @@ double64 evaluateDerivative(vector<Equation> equation, double x)
 int getNumberOfDigitsAfterDecimalPoint(double64 x)
 {
   int result = 0;
-  while (x != floor(x))
-  {
-    x *= 10;
-    result++;
-  }
+  // while (x != floor(x))
+  // {
+  //   x *= 10;
+  //   result++;
+  // }
+  stringstream ss;
+  ss << abs(x - floor(x));
+  string s = ss.str();
+  int i = 0;
+  while (i < s.length() && s[i] != '.')
+    i++;
+
+  if (i < s.length())
+    result = s.length() - i - 1;
+
+  if (result == 0)
+    return -1;
+
   return result;
 }
 
@@ -280,7 +294,7 @@ double64 newtonsMethod(vector<Equation> equation, double x0, double tolerance, i
     // Check how many digits are including the decimal point in x and use that to determine how many spaces to print after the x value in the output string (to make the output look nice)
     int numDigitsAfterDecimal = getNumberOfDigitsAfterDecimalPoint(x);
 
-    std::cout << "Iteration [" << i << "]:" << right << setw(10 - (i > 9 ? 1 : 0)) << setfill(' ') << "x = " << x << setw(20 - numDigitsAfterDecimal) << setfill(' ') << "f(x) = " << evaluateEquation(equation, x) << endl;
+    std::cout << "Iteration [" << i << "]:" << right << setw(10 - (i > 9 ? 1 : 0)) << setfill(' ') << "x = " << x << setw(40 - numDigitsAfterDecimal) << setfill(' ') << "f(x) = " << evaluateEquation(equation, x) << endl;
   }
 
   return -1;
